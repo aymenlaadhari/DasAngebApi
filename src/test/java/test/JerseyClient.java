@@ -13,32 +13,30 @@ import com.sun.jersey.api.client.WebResource;
  *
  * @author aladhari
  */
-
-
 public class JerseyClient {
 
-  public static void main(String[] args) {
-	try {
+    public static void main(String[] args) {
+        try {
 
-		Client client = Client.create();
+            Client client = Client.create();
 
-		WebResource webResource = client
-		   .resource("http://localhost:8080/jersey-quik-start/webapi/myresource/artikel").queryParam("art_nummer", "1701000");
-             
-		ClientResponse response = webResource.accept("application/json")
-                   .get(ClientResponse.class);
+            WebResource webResource = client
+                    .resource("http://localhost:8080/DasAngebApi/webapi/myresource/artikel").queryParam("art_nummer", "40500");
 
-		if (response.getStatus() != 200) {
-		   throw new RuntimeException("Failed : HTTP error code : "
-			+ response.getStatus());
-		}
-		String output = response.getEntity(String.class);
+            ClientResponse response = webResource.accept("application/json")
+                    .get(ClientResponse.class);
 
-		System.out.println("Output from Server .... \n");
-		System.out.println(output);
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + response.getStatus());
+            }
+            String output = response.getEntity(String.class);
 
-	  } catch (Exception e) {
-	  }
+            System.out.println("Output from Server .... \n");
+            System.out.println(output);
 
-	}
+        } catch (Exception e) {
+        }
+
+    }
 }

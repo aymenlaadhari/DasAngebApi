@@ -20,73 +20,71 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("myresource")
 public class MyResource {
-    private List<Kunden> kundens;
-    private List<Artikel> allArtikels;
+
     private final DocDaoInterface daoInterface = new DocDao();
-    
 
     /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "Json" media type.
+     * Method handling HTTP GET requests. The returned object will be sent to
+     * the client as "Json" media type.
      *
      * @return String that will be returned as a Json response.
      */
-    
     @GET
     @Path("/artikels")
     @Produces(MediaType.APPLICATION_JSON)
     public String listArtikels() {
-        allArtikels = daoInterface.getListArtikel();
-        return jsonFormat(allArtikels);
+        List<Artikel> artikels = daoInterface.getListArtikel();
+        return jsonFormat(artikels);
     }
 
     @GET
     @Path("/artikel")
     @Consumes("text/plain")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getArtikel(@QueryParam("art_nummer") String art_nummer)
-    {
+    public String getArtikel(@QueryParam("art_nummer") String art_nummer) {
         Artikel artikel = daoInterface.getSingelArtikle(art_nummer, "", "d", "1");
         return jsonFormat(artikel);
     }
-    
+
     @GET
     @Path("/kundens")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listKunden()
-    {
-        kundens = daoInterface.getListKunden();
-        return jsonFormat(kundens); 
+    public String listKunden() {
+        List<Kunden> kundens = daoInterface.getListKunden();
+        return jsonFormat(kundens);
     }
-    
+
     @GET
     @Path("/kund")
     @Consumes("text/plain")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getKund(@QueryParam("kund_nummer") String kund_nummer)
-    {
+    public String getKund(@QueryParam("kund_nummer") String kund_nummer) {
         Kunden kunden = daoInterface.getListKundenByCriteria(kund_nummer, "", "", "").get(0);
-        return jsonFormat(kunden); 
+        return jsonFormat(kunden);
     }
-    
- 
+
     @GET
     @Path("/bearbeiter")
     @Consumes("text/plain")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getBearbeiter(@QueryParam("login") String login)
-    {
+    public String getBearbeiter(@QueryParam("login") String login) {
         Bearbeiter bearbeiter = daoInterface.getBearbeiterByCriteria(login);
         return jsonFormat(bearbeiter);
     }
+
+    @GET
+    @Path("/bearbeiters")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listBearbeiter() {
+        List<Bearbeiter> bearbeiters = daoInterface.getListBearbeiters();
+        return jsonFormat(bearbeiters);
+    }
     
     
-     
-     private String jsonFormat(Object object)
-     {
-        String feeds = null;
+    private String jsonFormat(Object object) {
+        String feeds = "";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         feeds = gson.toJson(object);
         return feeds;
-     }
+    }
 }
